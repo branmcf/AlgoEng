@@ -383,11 +383,15 @@ def main():
     # enumerate all conflicts
     conflicts = calculateConflicts(schedule)
 
-    # remove duplicate conflicts
+    # remove duplicate conflicts and count them
+    numConflicts = 0
     if conflictMethod == '1':
         distinctConflicts = calculateDistinctConflicts1(conflicts)
+        for key, value in distinctConflicts.iteritems():
+            numConflicts = numConflicts + len(value)
     elif conflictMethod == '2':
         distinctConflicts = calculateDistinctConflicts2(conflicts)
+        numConflicts = len(distinctConflicts)
 
     # generate adjacency list
     conflictAdjacency = generateAdjacency(sessions,distinctConflicts)
@@ -397,11 +401,11 @@ def main():
 
     # print the result!
     print { "sessions(N)": sessions, 
-    "distinctConflicts(M)": distinctConflicts, 
-    "conflicts(T)": conflicts, 
+    "distinctConflicts(M)": numConflicts, 
+    "conflicts(T)": len(conflicts), 
     "attendees(S)": attendees, 
-    "maxSessions": maxSessions,
-    "distribution": distribution,
+    "sessionsPerAttendee(K)": maxSessions,
+    "distribution": distribution
     # "eArray": EParrays[0],
     # "pArray": EParrays[1]
     }
